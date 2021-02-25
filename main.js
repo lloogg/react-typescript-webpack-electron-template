@@ -7,6 +7,6 @@ function createWindow() {
       nodeIntegration: true,
     },
   });
-  win.loadFile('public/index.html');
+  win.loadFile('./dist/index.html');
 }
 app.whenReady().then(createWindow);

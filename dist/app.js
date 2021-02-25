@@ -1,445 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./node_modules/@antv/x6-react-shape/es/hook.js":
-/*!******************************************************!*\
-  !*** ./node_modules/@antv/x6-react-shape/es/hook.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _antv_x6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @antv/x6 */ "./node_modules/@antv/x6/es/index.js");
-/* harmony import */ var _registry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./registry */ "./node_modules/@antv/x6-react-shape/es/registry.js");
-
-
-_antv_x6__WEBPACK_IMPORTED_MODULE_0__.Graph.Hook.prototype.getReactComponent = function (node) {
-    const getReactComponent = this.options.getReactComponent;
-    if (typeof getReactComponent === 'function') {
-        const ret = _antv_x6__WEBPACK_IMPORTED_MODULE_0__.FunctionExt.call(getReactComponent, this.graph, node);
-        if (ret != null) {
-            return ret;
-        }
-    }
-    let ret = node.getComponent();
-    if (typeof ret === 'string') {
-        const component = _registry__WEBPACK_IMPORTED_MODULE_1__.registry.get(ret);
-        if (component == null) {
-            return _registry__WEBPACK_IMPORTED_MODULE_1__.registry.onNotFound(ret);
-        }
-        ret = component;
-    }
-    return ret;
-};
-//# sourceMappingURL=hook.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@antv/x6-react-shape/es/index.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/@antv/x6-react-shape/es/index.js ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ReactShape": () => (/* reexport safe */ _node__WEBPACK_IMPORTED_MODULE_1__.ReactShape),
-/* harmony export */   "ReactShapeView": () => (/* reexport safe */ _view__WEBPACK_IMPORTED_MODULE_2__.ReactShapeView),
-/* harmony export */   "registry": () => (/* reexport safe */ _registry__WEBPACK_IMPORTED_MODULE_3__.registry),
-/* harmony export */   "Portal": () => (/* reexport safe */ _portal__WEBPACK_IMPORTED_MODULE_4__.Portal)
-/* harmony export */ });
-/* harmony import */ var _hook__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./hook */ "./node_modules/@antv/x6-react-shape/es/hook.js");
-/* harmony import */ var _node__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node */ "./node_modules/@antv/x6-react-shape/es/node.js");
-/* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./view */ "./node_modules/@antv/x6-react-shape/es/view.js");
-/* harmony import */ var _registry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./registry */ "./node_modules/@antv/x6-react-shape/es/registry.js");
-/* harmony import */ var _portal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./portal */ "./node_modules/@antv/x6-react-shape/es/portal.js");
-
-
-
-
-
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@antv/x6-react-shape/es/node.js":
-/*!******************************************************!*\
-  !*** ./node_modules/@antv/x6-react-shape/es/node.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ReactShape": () => (/* binding */ ReactShape)
-/* harmony export */ });
-/* harmony import */ var _antv_x6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @antv/x6 */ "./node_modules/@antv/x6/es/index.js");
-
-class ReactShape extends _antv_x6__WEBPACK_IMPORTED_MODULE_0__.Node {
-    get component() {
-        return this.getComponent();
-    }
-    set component(val) {
-        this.setComponent(val);
-    }
-    getComponent() {
-        return this.store.get('component');
-    }
-    setComponent(component, options = {}) {
-        if (component == null) {
-            this.removeComponent(options);
-        }
-        else {
-            this.store.set('component', component, options);
-        }
-        return this;
-    }
-    removeComponent(options = {}) {
-        this.store.remove('component', options);
-        return this;
-    }
-}
-(function (ReactShape) {
-    function getMarkup(useForeignObject, primer = 'rect') {
-        const markup = [
-            {
-                tagName: primer,
-                selector: 'body',
-            },
-        ];
-        if (useForeignObject) {
-            markup.push(_antv_x6__WEBPACK_IMPORTED_MODULE_0__.Markup.getForeignObjectMarkup());
-        }
-        else {
-            markup.push({
-                tagName: 'g',
-                selector: 'content',
-            });
-        }
-        markup.push({
-            tagName: 'text',
-            selector: 'label',
-        });
-        return markup;
-    }
-    ReactShape.config({
-        view: 'react-shape-view',
-        markup: getMarkup(true),
-        attrs: {
-            body: {
-                fill: 'none',
-                stroke: 'none',
-                refWidth: '100%',
-                refHeight: '100%',
-            },
-            fo: {
-                refWidth: '100%',
-                refHeight: '100%',
-            },
-            label: {
-                fontSize: 14,
-                fill: '#333',
-                refX: '50%',
-                refY: '50%',
-                textAnchor: 'middle',
-                textVerticalAnchor: 'middle',
-            },
-        },
-        propHooks(metadata) {
-            if (metadata.markup == null) {
-                const primer = metadata.primer;
-                const useForeignObject = metadata.useForeignObject;
-                if (primer != null || useForeignObject != null) {
-                    metadata.markup = getMarkup(useForeignObject !== false, primer);
-                    if (primer) {
-                        if (metadata.attrs == null) {
-                            metadata.attrs = {};
-                        }
-                        let attrs = {};
-                        if (primer === 'circle') {
-                            attrs = {
-                                refCx: '50%',
-                                refCy: '50%',
-                                refR: '50%',
-                            };
-                        }
-                        else if (primer === 'ellipse') {
-                            attrs = {
-                                refCx: '50%',
-                                refCy: '50%',
-                                refRx: '50%',
-                                refRy: '50%',
-                            };
-                        }
-                        if (primer !== 'rect') {
-                            metadata.attrs = _antv_x6__WEBPACK_IMPORTED_MODULE_0__.ObjectExt.merge({}, metadata.attrs, {
-                                body: Object.assign({ refWidth: null, refHeight: null }, attrs),
-                            });
-                        }
-                    }
-                }
-            }
-            return metadata;
-        },
-    });
-    _antv_x6__WEBPACK_IMPORTED_MODULE_0__.Node.registry.register('react-shape', ReactShape, true);
-})(ReactShape || (ReactShape = {}));
-//# sourceMappingURL=node.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@antv/x6-react-shape/es/portal.js":
-/*!********************************************************!*\
-  !*** ./node_modules/@antv/x6-react-shape/es/portal.js ***!
-  \********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Portal": () => (/* binding */ Portal)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-
-var Portal;
-(function (Portal) {
-    let active = false;
-    let dispatch;
-    const reducer = (state, action) => {
-        const payload = action.payload;
-        switch (action.type) {
-            case 'add': {
-                const index = state.findIndex((item) => item.id === payload.id);
-                if (index >= 0) {
-                    state[index] = payload;
-                    return [...state];
-                }
-                return [...state, payload];
-            }
-            case 'remove': {
-                const index = state.findIndex((item) => item.id === payload.id);
-                if (index >= 0) {
-                    const result = [...state];
-                    result.splice(index, 1);
-                    return result;
-                }
-            }
-        }
-        return state;
-    };
-    function connect(id, portal) {
-        if (active) {
-            dispatch({ type: 'add', payload: { id, portal } });
-        }
-    }
-    Portal.connect = connect;
-    function disconnect(id) {
-        if (active) {
-            dispatch({ type: 'remove', payload: { id } });
-        }
-    }
-    Portal.disconnect = disconnect;
-    function isActive() {
-        return active;
-    }
-    Portal.isActive = isActive;
-    function getProvider() {
-        return () => {
-            active = true;
-            const [items, mutate] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useReducer)(reducer, []);
-            dispatch = mutate;
-            return react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-                children: items.map((item) => item.portal),
-            });
-        };
-    }
-    Portal.getProvider = getProvider;
-})(Portal || (Portal = {}));
-//# sourceMappingURL=portal.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@antv/x6-react-shape/es/registry.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/@antv/x6-react-shape/es/registry.js ***!
-  \**********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "registry": () => (/* binding */ registry)
-/* harmony export */ });
-/* harmony import */ var _antv_x6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @antv/x6 */ "./node_modules/@antv/x6/es/index.js");
-
-const registry = _antv_x6__WEBPACK_IMPORTED_MODULE_0__.Registry.create({
-    type: 'react componnet',
-});
-_antv_x6__WEBPACK_IMPORTED_MODULE_0__.Graph.registerReactComponent = registry.register;
-_antv_x6__WEBPACK_IMPORTED_MODULE_0__.Graph.unregisterReactComponent = registry.unregister;
-//# sourceMappingURL=registry.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@antv/x6-react-shape/es/view.js":
-/*!******************************************************!*\
-  !*** ./node_modules/@antv/x6-react-shape/es/view.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ReactShapeView": () => (/* binding */ ReactShapeView)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _antv_x6__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @antv/x6 */ "./node_modules/@antv/x6/es/index.js");
-/* harmony import */ var _portal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./portal */ "./node_modules/@antv/x6-react-shape/es/portal.js");
-/* harmony import */ var _wrap__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./wrap */ "./node_modules/@antv/x6-react-shape/es/wrap.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-class ReactShapeView extends _antv_x6__WEBPACK_IMPORTED_MODULE_2__.NodeView {
-    init() {
-        super.init();
-        this.cell.on('removed', () => {
-            _portal__WEBPACK_IMPORTED_MODULE_3__.Portal.disconnect(this.cell.id);
-        });
-    }
-    getComponentContainer() {
-        return this.cell.prop('useForeignObject') === false
-            ? this.selectors.content
-            : this.selectors.foContent;
-    }
-    confirmUpdate(flag) {
-        const ret = super.confirmUpdate(flag);
-        return this.handleAction(ret, ReactShapeView.action, () => this.renderReactComponent());
-    }
-    renderReactComponent() {
-        this.unmountReactComponent();
-        const root = this.getComponentContainer();
-        const node = this.cell;
-        const graph = this.graph;
-        if (root) {
-            const component = this.graph.hook.getReactComponent(node);
-            const elem = react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wrap__WEBPACK_IMPORTED_MODULE_4__.Wrap, { graph, node, component });
-            if (_portal__WEBPACK_IMPORTED_MODULE_3__.Portal.isActive()) {
-                _portal__WEBPACK_IMPORTED_MODULE_3__.Portal.connect(this.cell.id, react_dom__WEBPACK_IMPORTED_MODULE_1__.createPortal(elem, root));
-            }
-            else {
-                react_dom__WEBPACK_IMPORTED_MODULE_1__.render(elem, root);
-            }
-        }
-    }
-    unmountReactComponent() {
-        const root = this.getComponentContainer();
-        if (root) {
-            react_dom__WEBPACK_IMPORTED_MODULE_1__.unmountComponentAtNode(root);
-        }
-        return root;
-    }
-    onMouseDown(e, x, y) {
-        const target = e.target;
-        const tagName = target.tagName.toLowerCase();
-        if (tagName === 'input') {
-            const type = target.getAttribute('type');
-            if (type == null ||
-                [
-                    'text',
-                    'password',
-                    'number',
-                    'email',
-                    'search',
-                    'tel',
-                    'url',
-                ].includes(type)) {
-                return;
-            }
-        }
-        super.onMouseDown(e, x, y);
-    }
-    dispose() {
-        _portal__WEBPACK_IMPORTED_MODULE_3__.Portal.disconnect(this.cell.id);
-        this.unmountReactComponent();
-    }
-}
-__decorate([
-    _antv_x6__WEBPACK_IMPORTED_MODULE_2__.NodeView.dispose()
-], ReactShapeView.prototype, "dispose", null);
-(function (ReactShapeView) {
-    ReactShapeView.action = 'react';
-    ReactShapeView.config({
-        bootstrap: [ReactShapeView.action],
-        actions: {
-            component: ReactShapeView.action,
-        },
-    });
-    _antv_x6__WEBPACK_IMPORTED_MODULE_2__.NodeView.registry.register('react-shape-view', ReactShapeView, true);
-})(ReactShapeView || (ReactShapeView = {}));
-//# sourceMappingURL=view.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@antv/x6-react-shape/es/wrap.js":
-/*!******************************************************!*\
-  !*** ./node_modules/@antv/x6-react-shape/es/wrap.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Wrap": () => (/* binding */ Wrap)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _antv_x6__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @antv/x6 */ "./node_modules/@antv/x6/es/index.js");
-
-
-class Wrap extends react__WEBPACK_IMPORTED_MODULE_0__.PureComponent {
-    constructor() {
-        super(...arguments);
-        this.state = { tick: 0 };
-    }
-    componentDidMount() {
-        this.props.node.on('change:*', () => {
-            this.setState({ tick: this.state.tick + 1 });
-        });
-    }
-    clone(elem) {
-        const { node } = this.props;
-        return typeof elem.type === 'string'
-            ? react__WEBPACK_IMPORTED_MODULE_0__.cloneElement(elem)
-            : react__WEBPACK_IMPORTED_MODULE_0__.cloneElement(elem, { node });
-    }
-    render() {
-        const { graph, node, component } = this.props;
-        if (react__WEBPACK_IMPORTED_MODULE_0__.isValidElement(component)) {
-            return this.clone(component);
-        }
-        if (typeof component === 'function') {
-            // Calling the component function on every change of the node.
-            const ret = _antv_x6__WEBPACK_IMPORTED_MODULE_1__.FunctionExt.call(component, graph, node);
-            if (react__WEBPACK_IMPORTED_MODULE_0__.isValidElement(ret)) {
-                return this.clone(ret);
-            }
-        }
-        return component;
-    }
-}
-//# sourceMappingURL=wrap.js.map
-
-/***/ }),
-
 /***/ "./node_modules/@antv/x6/es/addon/autosave/index.js":
 /*!**********************************************************!*\
   !*** ./node_modules/@antv/x6/es/addon/autosave/index.js ***!
@@ -48562,73 +48123,148 @@ var Private;
 
 /***/ }),
 
-/***/ "./src/components/Editor.js":
-/*!**********************************!*\
-  !*** ./src/components/Editor.js ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/css/Editor.css":
+/*!*********************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/css/Editor.css ***!
+  \*********************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _antv_x6__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @antv/x6 */ "./node_modules/@antv/x6/es/index.js");
-/* harmony import */ var _antv_x6_react_shape__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @antv/x6-react-shape */ "./node_modules/@antv/x6-react-shape/es/index.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
 
 
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".app {\n  font-family: sans-serif;\n  padding: 0;\n  display: flex;\n  padding: 16px 8px;\n}\n\n.app-content {\n  flex: 1;\n  height: 280px;\n  margin-left: 8px;\n  margin-right: 8px;\n  box-shadow: 0 0 10px 1px #e9e9e9;\n}", "",{"version":3,"sources":["webpack://./src/css/Editor.css"],"names":[],"mappings":"AAAA;EACE,uBAAA;EACA,UAAA;EACA,aAAA;EACA,iBAAA;AACF;;AAEA;EACE,OAAA;EACA,aAAA;EACA,gBAAA;EACA,iBAAA;EACA,gCAAA;AACF","sourcesContent":[".app {\r\n  font-family: sans-serif;\r\n  padding: 0;\r\n  display: flex;\r\n  padding: 16px 8px;\r\n}\r\n\r\n.app-content {\r\n  flex: 1;\r\n  height: 280px;\r\n  margin-left: 8px;\r\n  margin-right: 8px;\r\n  box-shadow: 0 0 10px 1px #e9e9e9;\r\n}\r\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
-
-var Editor = () => {
-  var graph = new _antv_x6__WEBPACK_IMPORTED_MODULE_1__.Graph({
-    container: document.getElementById('container'),
-    grid: true
-  });
-  var source = graph.addNode({
-    x: 300,
-    y: 40,
-    width: 80,
-    height: 40,
-    label: 'Hello'
-  });
-  var target = graph.addNode({
-    x: 420,
-    y: 180,
-    width: 80,
-    height: 40,
-    label: 'World'
-  });
-  graph.addEdge({
-    source,
-    target
-  });
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null);
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Editor);
 
 /***/ }),
 
-/***/ "./src/components/Example.js":
-/*!***********************************!*\
-  !*** ./src/components/Example.js ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./node_modules/css-loader/dist/runtime/api.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
+  \*****************************************************/
+/***/ ((module) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 
-var Example = () => {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "yep yep yep");
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+// eslint-disable-next-line func-names
+module.exports = function (cssWithMappingToString) {
+  var list = []; // return the list of modules as css string
+
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = cssWithMappingToString(item);
+
+      if (item[2]) {
+        return "@media ".concat(item[2], " {").concat(content, "}");
+      }
+
+      return content;
+    }).join("");
+  }; // import a list of modules into the list
+  // eslint-disable-next-line func-names
+
+
+  list.i = function (modules, mediaQuery, dedupe) {
+    if (typeof modules === "string") {
+      // eslint-disable-next-line no-param-reassign
+      modules = [[null, modules, ""]];
+    }
+
+    var alreadyImportedModules = {};
+
+    if (dedupe) {
+      for (var i = 0; i < this.length; i++) {
+        // eslint-disable-next-line prefer-destructuring
+        var id = this[i][0];
+
+        if (id != null) {
+          alreadyImportedModules[id] = true;
+        }
+      }
+    }
+
+    for (var _i = 0; _i < modules.length; _i++) {
+      var item = [].concat(modules[_i]);
+
+      if (dedupe && alreadyImportedModules[item[0]]) {
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+
+      if (mediaQuery) {
+        if (!item[2]) {
+          item[2] = mediaQuery;
+        } else {
+          item[2] = "".concat(mediaQuery, " and ").concat(item[2]);
+        }
+      }
+
+      list.push(item);
+    }
+  };
+
+  return list;
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Example);
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/cssWithMappingToString.js ***!
+  \************************************************************************/
+/***/ ((module) => {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+module.exports = function cssWithMappingToString(item) {
+  var _item = _slicedToArray(item, 4),
+      content = _item[1],
+      cssMapping = _item[3];
+
+  if (typeof btoa === "function") {
+    // eslint-disable-next-line no-undef
+    var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(cssMapping))));
+    var data = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(base64);
+    var sourceMapping = "/*# ".concat(data, " */");
+    var sourceURLs = cssMapping.sources.map(function (source) {
+      return "/*# sourceURL=".concat(cssMapping.sourceRoot || "").concat(source, " */");
+    });
+    return [content].concat(sourceURLs).concat([sourceMapping]).join("\n");
+  }
+
+  return [content].join("\n");
+};
 
 /***/ }),
 
@@ -104964,6 +104600,583 @@ if (false) {} else {
 }
 
 
+/***/ }),
+
+/***/ "./src/css/Editor.css":
+/*!****************************!*\
+  !*** ./src/css/Editor.css ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_Editor_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./Editor.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/css/Editor.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_Editor_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_Editor_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
+  \****************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var isOldIE = function isOldIE() {
+  var memo;
+  return function memorize() {
+    if (typeof memo === 'undefined') {
+      // Test for IE <= 9 as proposed by Browserhacks
+      // @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+      // Tests for existence of standard globals is to allow style-loader
+      // to operate correctly into non-standard environments
+      // @see https://github.com/webpack-contrib/style-loader/issues/177
+      memo = Boolean(window && document && document.all && !window.atob);
+    }
+
+    return memo;
+  };
+}();
+
+var getTarget = function getTarget() {
+  var memo = {};
+  return function memorize(target) {
+    if (typeof memo[target] === 'undefined') {
+      var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
+
+      if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+        try {
+          // This will throw an exception if access to iframe is blocked
+          // due to cross-origin restrictions
+          styleTarget = styleTarget.contentDocument.head;
+        } catch (e) {
+          // istanbul ignore next
+          styleTarget = null;
+        }
+      }
+
+      memo[target] = styleTarget;
+    }
+
+    return memo[target];
+  };
+}();
+
+var stylesInDom = [];
+
+function getIndexByIdentifier(identifier) {
+  var result = -1;
+
+  for (var i = 0; i < stylesInDom.length; i++) {
+    if (stylesInDom[i].identifier === identifier) {
+      result = i;
+      break;
+    }
+  }
+
+  return result;
+}
+
+function modulesToDom(list, options) {
+  var idCountMap = {};
+  var identifiers = [];
+
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i];
+    var id = options.base ? item[0] + options.base : item[0];
+    var count = idCountMap[id] || 0;
+    var identifier = "".concat(id, " ").concat(count);
+    idCountMap[id] = count + 1;
+    var index = getIndexByIdentifier(identifier);
+    var obj = {
+      css: item[1],
+      media: item[2],
+      sourceMap: item[3]
+    };
+
+    if (index !== -1) {
+      stylesInDom[index].references++;
+      stylesInDom[index].updater(obj);
+    } else {
+      stylesInDom.push({
+        identifier: identifier,
+        updater: addStyle(obj, options),
+        references: 1
+      });
+    }
+
+    identifiers.push(identifier);
+  }
+
+  return identifiers;
+}
+
+function insertStyleElement(options) {
+  var style = document.createElement('style');
+  var attributes = options.attributes || {};
+
+  if (typeof attributes.nonce === 'undefined') {
+    var nonce =  true ? __webpack_require__.nc : 0;
+
+    if (nonce) {
+      attributes.nonce = nonce;
+    }
+  }
+
+  Object.keys(attributes).forEach(function (key) {
+    style.setAttribute(key, attributes[key]);
+  });
+
+  if (typeof options.insert === 'function') {
+    options.insert(style);
+  } else {
+    var target = getTarget(options.insert || 'head');
+
+    if (!target) {
+      throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
+    }
+
+    target.appendChild(style);
+  }
+
+  return style;
+}
+
+function removeStyleElement(style) {
+  // istanbul ignore if
+  if (style.parentNode === null) {
+    return false;
+  }
+
+  style.parentNode.removeChild(style);
+}
+/* istanbul ignore next  */
+
+
+var replaceText = function replaceText() {
+  var textStore = [];
+  return function replace(index, replacement) {
+    textStore[index] = replacement;
+    return textStore.filter(Boolean).join('\n');
+  };
+}();
+
+function applyToSingletonTag(style, index, remove, obj) {
+  var css = remove ? '' : obj.media ? "@media ".concat(obj.media, " {").concat(obj.css, "}") : obj.css; // For old IE
+
+  /* istanbul ignore if  */
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = replaceText(index, css);
+  } else {
+    var cssNode = document.createTextNode(css);
+    var childNodes = style.childNodes;
+
+    if (childNodes[index]) {
+      style.removeChild(childNodes[index]);
+    }
+
+    if (childNodes.length) {
+      style.insertBefore(cssNode, childNodes[index]);
+    } else {
+      style.appendChild(cssNode);
+    }
+  }
+}
+
+function applyToTag(style, options, obj) {
+  var css = obj.css;
+  var media = obj.media;
+  var sourceMap = obj.sourceMap;
+
+  if (media) {
+    style.setAttribute('media', media);
+  } else {
+    style.removeAttribute('media');
+  }
+
+  if (sourceMap && typeof btoa !== 'undefined') {
+    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
+  } // For old IE
+
+  /* istanbul ignore if  */
+
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    while (style.firstChild) {
+      style.removeChild(style.firstChild);
+    }
+
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var singleton = null;
+var singletonCounter = 0;
+
+function addStyle(obj, options) {
+  var style;
+  var update;
+  var remove;
+
+  if (options.singleton) {
+    var styleIndex = singletonCounter++;
+    style = singleton || (singleton = insertStyleElement(options));
+    update = applyToSingletonTag.bind(null, style, styleIndex, false);
+    remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+  } else {
+    style = insertStyleElement(options);
+    update = applyToTag.bind(null, style, options);
+
+    remove = function remove() {
+      removeStyleElement(style);
+    };
+  }
+
+  update(obj);
+  return function updateStyle(newObj) {
+    if (newObj) {
+      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap) {
+        return;
+      }
+
+      update(obj = newObj);
+    } else {
+      remove();
+    }
+  };
+}
+
+module.exports = function (list, options) {
+  options = options || {}; // Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+  // tags it will allow on a page
+
+  if (!options.singleton && typeof options.singleton !== 'boolean') {
+    options.singleton = isOldIE();
+  }
+
+  list = list || [];
+  var lastIdentifiers = modulesToDom(list, options);
+  return function update(newList) {
+    newList = newList || [];
+
+    if (Object.prototype.toString.call(newList) !== '[object Array]') {
+      return;
+    }
+
+    for (var i = 0; i < lastIdentifiers.length; i++) {
+      var identifier = lastIdentifiers[i];
+      var index = getIndexByIdentifier(identifier);
+      stylesInDom[index].references--;
+    }
+
+    var newLastIdentifiers = modulesToDom(newList, options);
+
+    for (var _i = 0; _i < lastIdentifiers.length; _i++) {
+      var _identifier = lastIdentifiers[_i];
+
+      var _index = getIndexByIdentifier(_identifier);
+
+      if (stylesInDom[_index].references === 0) {
+        stylesInDom[_index].updater();
+
+        stylesInDom.splice(_index, 1);
+      }
+    }
+
+    lastIdentifiers = newLastIdentifiers;
+  };
+};
+
+/***/ }),
+
+/***/ "./src/App.tsx":
+/*!*********************!*\
+  !*** ./src/App.tsx ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _components_Editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Editor */ "./src/components/Editor.tsx");
+/* harmony import */ var _components_Example__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Example */ "./src/components/Example.tsx");
+/* harmony import */ var _components_Ref__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Ref */ "./src/components/Ref.tsx");
+/* harmony import */ var _components_Width__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Width */ "./src/components/Width.tsx");
+/* harmony import */ var _examples_Memo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./examples/Memo */ "./src/examples/Memo.tsx");
+
+
+
+
+
+
+var App = function () {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Editor__WEBPACK_IMPORTED_MODULE_1__.default, null),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Example__WEBPACK_IMPORTED_MODULE_2__.default, null),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Width__WEBPACK_IMPORTED_MODULE_4__.default, null),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Ref__WEBPACK_IMPORTED_MODULE_3__.default, null),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("hr", null),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_examples_Memo__WEBPACK_IMPORTED_MODULE_5__.default, null)));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
+
+
+/***/ }),
+
+/***/ "./src/components/Editor.tsx":
+/*!***********************************!*\
+  !*** ./src/components/Editor.tsx ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _antv_x6__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @antv/x6 */ "./node_modules/@antv/x6/es/index.js");
+/* harmony import */ var _css_Editor_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../css/Editor.css */ "./src/css/Editor.css");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+var data = {
+    // 节点
+    nodes: [
+        {
+            id: 'node1',
+            x: 40,
+            y: 40,
+            width: 80,
+            height: 40,
+            label: 'Hello',
+        },
+        {
+            id: 'node2',
+            x: 160,
+            y: 180,
+            width: 80,
+            height: 40,
+            label: 'World',
+        },
+    ],
+    // 边
+    edges: [
+        {
+            source: 'node1',
+            target: 'node2',
+        },
+    ],
+};
+var Editor = /** @class */ (function (_super) {
+    __extends(Editor, _super);
+    function Editor() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.refContainer = function (container) {
+            _this.container = container;
+        };
+        return _this;
+    }
+    Editor.prototype.componentDidMount = function () {
+        var graph = new _antv_x6__WEBPACK_IMPORTED_MODULE_1__.Graph({
+            container: this.container,
+            background: {
+                color: '#fffbe6',
+            },
+            grid: {
+                size: 10,
+                visible: true,
+            },
+        });
+        graph.fromJSON(data);
+    };
+    Editor.prototype.render = function () {
+        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "app" },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: "app-content", ref: this.refContainer })));
+    };
+    return Editor;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Editor);
+
+
+/***/ }),
+
+/***/ "./src/components/Example.tsx":
+/*!************************************!*\
+  !*** ./src/components/Example.tsx ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+// import React, { useState } from 'react';
+// function Example() {
+//   // Declare a new state variable, which we'll call "count"
+//   const [count, setCount] = useState(0);
+//   return (
+//     <div>
+//       <p>You clicked {count} times</p>
+//       <button onClick={() => setCount(count + 1)}>Click me</button>
+//     </div>
+//   );
+// }
+// export default Example;
+
+var Example = function () {
+    var _a = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0), count = _a[0], setCount = _a[1];
+    var decrementCount = function () {
+        setCount(function (prevCount) { return prevCount - 1; });
+    };
+    var incrementCount = function () {
+        setCount(function (prevCount) { return prevCount + 1; });
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { onClick: decrementCount }, "-"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, count),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { onClick: incrementCount }, "+")));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Example);
+
+
+/***/ }),
+
+/***/ "./src/components/Ref.tsx":
+/*!********************************!*\
+  !*** ./src/components/Ref.tsx ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Ref)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+function Ref() {
+    var _a = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''), name = _a[0], setName = _a[1];
+    var prevName = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)('');
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+        prevName.current = name;
+    }, [name]);
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { value: name, onChange: function (e) { return setName(e.target.value); } }),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
+            "My name is ",
+            name,
+            " and it used to be ",
+            prevName.current)));
+}
+
+
+/***/ }),
+
+/***/ "./src/components/Width.tsx":
+/*!**********************************!*\
+  !*** ./src/components/Width.tsx ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Width)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+function Width() {
+    var _a = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.innerWidth), windowWidth = _a[0], setWindowWidth = _a[1];
+    var handleResize = function () {
+        setWindowWidth(window.innerWidth);
+    };
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+        window.addEventListener('resize', handleResize);
+    }, []);
+    return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
+        "windowWidth : ",
+        windowWidth);
+}
+
+
+/***/ }),
+
+/***/ "./src/examples/Memo.tsx":
+/*!*******************************!*\
+  !*** ./src/examples/Memo.tsx ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Memo)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+function Memo() {
+    var _a = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0), number = _a[0], setNumber = _a[1];
+    var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false), dark = _b[0], setDark = _b[1];
+    var doubleNumber = (0,react__WEBPACK_IMPORTED_MODULE_0__.useMemo)(function () {
+        return slowFunction(number);
+    }, [number]);
+    var themeStyles = {
+        backgroundColor: dark ? 'black' : 'white',
+        color: dark ? 'white' : 'black',
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { type: "number", value: number, onChange: function (e) { return setNumber(parseInt(e.target.value)); } }),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { onClick: function () { return setDark(function (prevDark) { return !prevDark; }); } }, "Change Theme"),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { style: themeStyles }, doubleNumber)));
+    function slowFunction(num) {
+        console.log('Calling Slow Function');
+        for (var i = 0; i <= 1000000000; i++) { }
+        return num * 2;
+    }
+}
+
+
 /***/ })
 
 /******/ 	});
@@ -104979,7 +105192,7 @@ if (false) {} else {
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
+/******/ 			id: moduleId,
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
@@ -105037,19 +105250,18 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
+/*!***********************!*\
+  !*** ./src/index.tsx ***!
+  \***********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _components_Example__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Example */ "./src/components/Example.js");
-/* harmony import */ var _components_Editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Editor */ "./src/components/Editor.js");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./src/App.tsx");
 
 
 
+react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(_App__WEBPACK_IMPORTED_MODULE_2__.default, null), document.getElementById('root'));
 
-react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_Editor__WEBPACK_IMPORTED_MODULE_3__.default, null), document.getElementById('root'));
 })();
 
 /******/ })()
