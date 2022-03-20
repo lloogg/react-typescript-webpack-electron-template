@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Editor from './components/Editor';
 import Eff from './components/Eff';
 import Example from './components/Example';
@@ -7,14 +8,15 @@ import Width from './components/Width';
 import Memo from './examples/Memo';
 const App = () => {
   return (
-    <div>
-      <Editor />
-      <Example />
-      {/* <Eff /> */}
-      <Width />
-      <Ref />
-      <hr />
-      <Memo />
+    <div
+      onClick={() => {
+        let childWindow = window.open(`${__dirname}/../public/scope.html`);
+        let div = document.createElement('div');
+        childWindow.document.body.appendChild(div);
+        // ReactDOM.render(<Child win={childWindow} />, div);
+      }}
+    >
+      abc
     </div>
   );
 };

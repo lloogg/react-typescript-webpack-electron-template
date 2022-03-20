@@ -1,9 +1,21 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlPlugin = require('html-webpack-plugin');
 module.exports = {
   mode: 'development',
-  entry: './src/index.tsx',
-  devtool: 'cheap-module-source-map',
+  entry: {
+    main: {
+      import: './src/index.tsx',
+    },
+    scope: {
+      import: path.resolve(__dirname, './src/view/scope'),
+      library: {
+        type: 'window',
+        name: 'windo',
+      },
+    },
+  },
+  devtool: 'source-map',
   target: 'electron-renderer',
   module: {
     rules: [
@@ -11,18 +23,16 @@ module.exports = {
         test: [/\.s[ac]ss$/i, /\.css$/i],
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
+
       {
-        test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
-          },
-        ],
-      },
-      {
-        test: /\.tsx$/,
+        test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: '/node_modules/',
+      },
+
+      {
+        test: /\.js$/,
+        loader: 'ify-loader',
       },
     ],
   },
@@ -30,16 +40,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js'],
   },
   output: {
-    filename: 'app.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
-  },
-  plugins: [
-    new HtmlPlugin({
-      filename: 'index.html',
-      template: './public/index.html',
-    }),
-  ],
-  devServer: {
-    historyApiFallback: true,
   },
 };
