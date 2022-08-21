@@ -1,19 +1,10 @@
 const path = require('path');
-const webpack = require('webpack');
-const HtmlPlugin = require('html-webpack-plugin');
 module.exports = {
   mode: 'development',
   entry: {
-    main: {
-      import: './src/index.tsx',
-    },
-    scope: {
-      import: path.resolve(__dirname, './src/view/scope'),
-      library: {
-        type: 'window',
-        name: 'windo',
-      },
-    },
+    main: path.resolve(__dirname, './view/main/index.tsx'),
+    main2: path.resolve(__dirname, './view/main/index2.tsx')
+    
   },
   devtool: 'source-map',
   target: 'electron-renderer',
@@ -30,10 +21,6 @@ module.exports = {
         exclude: '/node_modules/',
       },
 
-      {
-        test: /\.js$/,
-        loader: 'ify-loader',
-      },
     ],
   },
   resolve: {
@@ -41,6 +28,6 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../../dist'),
   },
 };
